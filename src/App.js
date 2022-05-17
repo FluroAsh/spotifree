@@ -1,4 +1,6 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import './App.css';
 
 function App() {
   // capital-named constants are only used as aliases for “hard-coded” values
@@ -7,16 +9,105 @@ function App() {
   const AUTH_ENDPOINT = 'https://accounts.spotify.com/authorize';
   const RESPONSE_TYPE = 'token';
 
+  const [token, setToken] = useState('');
+  const [searchKey, setSearchKey] = useState('');
+  const [artists, setArtists] = useState('');
+
+  useEffect(() => {
+    const hash = window.location.hash;
+    let token = window.localStorage.getItem('token');
+
+    console.log(token);
+    console.log(window.localStorage.getItem('token'));
+
+    if (!token && hash) {
+      token = hash
+        .substring(1)
+        .split('&')
+        .find((element) => element.startsWith('access_token'))
+        .split('=')[1];
+
+      console.log(token, '\n', hash);
+
+      window.location.hash = '';
+      window.localStorage.setItem('token', token); // key: value
+    }
+
+    setToken(token);
+  });
+
+  const logout = () => {
+    setToken('');
+    window.localStorage.removeItem('token');
+
+    /* check if token exists after logout */
+    console.log(window.localStorage.getItem('token'));
+  };
+
+  console.log(token);
+
+  // async as we are waiting for axios
+  const searchArtists = async (event) => {
+    event.preventDefault();
+
+    const { data } = await axios.get('https://api.spotify.com/v1/search', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: {
+        q: searchKey,
+        type: 'artist',
+      },
+    });
+    console.log(data);
+    setArtists(data.artists.items);
+  };
+
+  const renderArtists = () => {
+    console.log(artists);
+    return artists.map((artist) => (
+      <div className="artist-card" key={artist.id}>
+        <h3>{artist.name}</h3>
+        {artist.images.length ? (
+          <img src={artist.images[0].url} alt="" />
+        ) : (
+          <div>No Image</div>
+        )}
+      </div>
+    ));
+  };
+
   return (
     <div className="app">
-      <header>
+      <header className="app-header">
         <h1>Spotify React</h1>
-        <a
-          href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}
-        >
-          Login to Spotify
-        </a>
+        {!token ? (
+          <a
+            href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}
+          >
+            Login to Spotify
+          </a>
+        ) : (
+          <button id="logout-btn" onClick={logout}>
+            Logout
+          </button>
+        )}
       </header>
+
+      {token ? (
+        <form onSubmit={searchArtists}>
+          <input
+            type="text"
+            onChange={(event) => setSearchKey(event.target.value)}
+          />
+          <button type={'submit'} id="search-btn">
+            Search
+          </button>
+        </form>
+      ) : (
+        <h2>Please login!</h2>
+      )}
+      <div className="artist-container">{artists && renderArtists()}</div>
     </div>
   );
 }
