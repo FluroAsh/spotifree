@@ -36,15 +36,11 @@ function App() {
     setToken(token);
   });
 
+  /* removes token from browsers local storage */
   const logout = () => {
     setToken('');
     window.localStorage.removeItem('token');
-
-    /* check if token exists after logout */
-    console.log(window.localStorage.getItem('token'));
   };
-
-  console.log(token);
 
   // async as we are waiting for axios
   const searchArtists = async (event) => {
@@ -107,7 +103,9 @@ function App() {
       ) : (
         <h2>Please login!</h2>
       )}
-      <div className="artist-container">{artists && renderArtists()}</div>
+      <div className="artist-container">
+        {(token && artists) && renderArtists()}
+      </div>
     </div>
   );
 }
