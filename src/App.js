@@ -71,7 +71,7 @@ function App() {
   };
 
   return (
-    <div className="app">
+    <>
       <header className="app-header">
         <h1>Spotify React</h1>
         {!token ? (
@@ -85,24 +85,25 @@ function App() {
             Logout
           </button>
         )}
+        {token ? (
+          <form onSubmit={searchArtists}>
+            <input
+              type="text"
+              onChange={(event) => setSearchKey(event.target.value)}
+            />
+            <button type={"submit"} id="search-btn">
+              Search
+            </button>
+          </form>
+        ) : (
+          <h2>Please login!</h2>
+        )}
       </header>
-      {token ? (
-        <form onSubmit={searchArtists}>
-          <input
-            type="text"
-            onChange={(event) => setSearchKey(event.target.value)}
-          />
-          <button type={"submit"} id="search-btn">
-            Search
-          </button>
-        </form>
-      ) : (
-        <h2>Please login!</h2>
-      )}
+
       <div className="artist-container">
-        {token && artists && renderArtists()}
+        <div className="artist-grid">{token && artists && renderArtists()}</div>
       </div>
-    </div>
+    </>
   );
 }
 
