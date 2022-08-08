@@ -1,36 +1,34 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import "./App.css";
 
 function App() {
   // capital-named constants are only used as aliases for “hard-coded” values
-  const CLIENT_ID = '406c8a0b7edd439dae2018d8f93a2473';
-  const REDIRECT_URI = 'http://localhost:3000';
-  const AUTH_ENDPOINT = 'https://accounts.spotify.com/authorize';
-  const RESPONSE_TYPE = 'token';
+  const CLIENT_ID = "406c8a0b7edd439dae2018d8f93a2473";
+  const REDIRECT_URI = "http://localhost:3000";
+  const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
+  const RESPONSE_TYPE = "token";
 
-  const [token, setToken] = useState('');
-  const [searchKey, setSearchKey] = useState('');
-  const [artists, setArtists] = useState('');
+  const [token, setToken] = useState("");
+  const [searchKey, setSearchKey] = useState("");
+  const [artists, setArtists] = useState("");
 
   useEffect(() => {
     const hash = window.location.hash;
-    let token = window.localStorage.getItem('token');
+    let token = window.localStorage.getItem("token");
 
     console.log(token);
-    console.log(window.localStorage.getItem('token'));
+    console.log(window.localStorage.getItem("token"));
 
     if (!token && hash) {
       token = hash
         .substring(1)
-        .split('&')
-        .find((element) => element.startsWith('access_token'))
-        .split('=')[1];
+        .split("&")
+        .find((element) => element.startsWith("access_token"))
+        .split("=")[1];
 
-      console.log(token, '\n', hash);
-
-      window.location.hash = '';
-      window.localStorage.setItem('token', token); // key: value
+      window.location.hash = "";
+      window.localStorage.setItem("token", token); // key: value
     }
 
     setToken(token);
@@ -38,21 +36,21 @@ function App() {
 
   /* removes token from browsers local storage */
   const logout = () => {
-    setToken('');
-    window.localStorage.removeItem('token');
+    setToken("");
+    window.localStorage.removeItem("token");
   };
 
   // async as we are waiting for axios
   const searchArtists = async (event) => {
     event.preventDefault();
 
-    const { data } = await axios.get('https://api.spotify.com/v1/search', {
+    const { data } = await axios.get("https://api.spotify.com/v1/search", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
       params: {
         q: searchKey,
-        type: 'artist',
+        type: "artist",
       },
     });
     console.log(data);
@@ -60,7 +58,6 @@ function App() {
   };
 
   const renderArtists = () => {
-    console.log(artists);
     return artists.map((artist) => (
       <div className="artist-card" key={artist.id}>
         <h3>{artist.name}</h3>
@@ -89,14 +86,13 @@ function App() {
           </button>
         )}
       </header>
-
       {token ? (
         <form onSubmit={searchArtists}>
           <input
             type="text"
             onChange={(event) => setSearchKey(event.target.value)}
           />
-          <button type={'submit'} id="search-btn">
+          <button type={"submit"} id="search-btn">
             Search
           </button>
         </form>
@@ -104,7 +100,7 @@ function App() {
         <h2>Please login!</h2>
       )}
       <div className="artist-container">
-        {(token && artists) && renderArtists()}
+        {token && artists && renderArtists()}
       </div>
     </div>
   );
