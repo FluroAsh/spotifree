@@ -32,6 +32,8 @@ function App() {
     setToken(token);
   }, []);
 
+  console.log(REDIRECT_URI);
+
   /* removes token from browsers local storage */
   const logout = () => {
     setToken("");

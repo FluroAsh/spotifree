@@ -1,3 +1,3 @@
-# [Spotifree](spotifree-demo.netlify.app)
+# [Spotifree](https://spotifree-demo.netlify.app/)
 
 # Installation
