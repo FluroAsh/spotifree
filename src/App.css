@@ -47,7 +47,10 @@ h3 {
   align-items: center;
 }
 
-a,
+a {
+  text-decoration: none;
+  color: #fff;
+}
 button {
   color: #fff;
   text-decoration: none;
@@ -59,7 +62,8 @@ button:hover {
   background: #88c048;
   border: 1px solid #527e20;
 }
-#logout-btn {
+#logout-btn,
+#login-btn {
   border: 1px solid #000;
   max-width: 100%;
   width: 150px;

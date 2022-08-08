@@ -17,9 +17,6 @@ function App() {
     const hash = window.location.hash;
     let token = window.localStorage.getItem("token");
 
-    console.log(token);
-    console.log(window.localStorage.getItem("token"));
-
     if (!token && hash) {
       token = hash
         .substring(1)
@@ -40,7 +37,6 @@ function App() {
     window.localStorage.removeItem("token");
   };
 
-  // async as we are waiting for axios
   const searchArtists = async (event) => {
     event.preventDefault();
 
@@ -53,7 +49,6 @@ function App() {
         type: "artist",
       },
     });
-    console.log(data);
     setArtists(data.artists.items);
   };
 
@@ -75,11 +70,13 @@ function App() {
       <header className="app-header">
         <h1>Spotify React</h1>
         {!token ? (
-          <a
-            href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}
-          >
-            Login to Spotify
-          </a>
+          <button id="login-btn">
+            <a
+              href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}
+            >
+              Login to Spotify
+            </a>
+          </button>
         ) : (
           <button id="logout-btn" onClick={logout}>
             Logout
