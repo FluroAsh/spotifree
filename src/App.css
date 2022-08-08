@@ -150,7 +150,7 @@ input:focus {
   background: rgba(94, 207, 165, 0.5);
   border-top: 2px solid rgba(94, 207, 165, 0.5);
   border-bottom: 2px solid rgba(94, 207, 165, 0.5);
-  text-shadow: 3px 3px 5px #000;
+  text-shadow: 2px 0px 2px #1f1f1f;
   letter-spacing: 2px;
 }
 .artist-card:hover h3 {
