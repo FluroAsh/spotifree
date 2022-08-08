@@ -13,6 +13,7 @@ html {
 
 body {
   font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
   color: #fff;
 }
 
@@ -25,8 +26,12 @@ h2 {
   padding: 2px;
   text-align: center;
   font-style: italic;
-  font-size: 1em;
+  font-size: 1.2em;
   cursor: default;
+}
+
+h3 {
+  font-size: 1.2em;
 }
 
 .app {
@@ -44,27 +49,23 @@ h2 {
 
 a,
 button {
-  padding: 4px;
-  border-radius: 5px;
-  color: #000;
+  color: #fff;
   text-decoration: none;
   background: #91df3799;
   text-align: center;
 }
-
 button:hover {
   cursor: pointer;
+  background: #88c048;
+  border: 1px solid #527e20;
 }
-
 #logout-btn {
+  border: 1px solid #000;
   max-width: 100%;
-  width: 200px;
+  width: 150px;
   margin: 10px;
-}
-
-#search-btn {
-  width: 50px;
-  margin: 0 0 0 5px;
+  padding: 3px;
+  border-radius: 5px;
 }
 
 form {
@@ -74,16 +75,27 @@ form {
 }
 
 input[type="text"] {
-  border: 3px solid rgb(65, 114, 45);
-  background: #d2dfc2;
-  border-radius: 5px;
+  font-size: 0.8em;
+  border: none;
+  border: 2px solid #1f1f1f;
+  border-right: 1px solid #1f1f1f;
+  outline: none;
+  background: #d9e9c5;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
   transition: 100ms ease-in;
   padding: 4px;
 }
-
 input:focus {
-  box-shadow: 0 0 4px 3px rgba(157, 242, 172, 50),
-    0 0 5px 3px rgba(111, 240, 85, 50), 0 0 6px 3px rgba(56, 203, 37, 50);
+  background: #aede74;
+}
+#search-btn {
+  border: 2px solid #1f1f1f;
+  border-left: none;
+  width: 70px;
+  z-index: 99;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
 }
 
 .artist-container {
@@ -99,7 +111,7 @@ input:focus {
   justify-content: center;
   align-self: center;
   gap: 1em;
-  margin: 1em;
+  margin: 0 1em 1em;
 }
 
 .artist-card {
@@ -109,19 +121,44 @@ input:focus {
   justify-content: space-between;
   width: 200px;
   padding: 5px;
-  background: aqua;
   border-radius: 5px;
+  overflow: hidden;
+  transition: 0.5s;
+  /* From https://css.glass */
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .artist-card h3 {
-  margin: 0 0 5px;
+  opacity: 0;
+  position: absolute;
+  top: calc(50% - 16px);
+  left: 0;
+  padding: 8px 5px;
+  width: 100%;
+  transition: 0.3s;
+  z-index: 999;
+  font-family: "Fjalla One", Arial, Helvetica, sans-serif;
+  background: rgba(94, 207, 165, 0.5);
+  border-top: 2px solid rgba(94, 207, 165, 0.5);
+  border-bottom: 2px solid rgba(94, 207, 165, 0.5);
+  text-shadow: 3px 3px 5px #000;
+  letter-spacing: 2px;
 }
-
+.artist-card:hover h3 {
+  opacity: 1;
+}
 img {
+  position: relative;
   max-width: 100%;
   height: 200px;
   object-fit: cover;
-  border-radius: 15px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 /* medium */
@@ -139,9 +176,11 @@ img {
 }
 /* extra small */
 @media (max-width: 550px) {
+  body {
+    font-size: 12px;
+  }
   .artist-grid {
     grid-template-columns: repeat(2, 150px);
-    /* gap: 0.8em; */
   }
   .artist-card {
     width: 150px;
