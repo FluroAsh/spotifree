@@ -5,7 +5,8 @@ import "./App.css";
 function App() {
   // capital-named constants are only used as aliases for “hard-coded” values
   const CLIENT_ID = "406c8a0b7edd439dae2018d8f93a2473";
-  const REDIRECT_URI = "http://localhost:3000";
+  const REDIRECT_URI =
+    process.env.REACT_APP_CLIENT_URL || "http://localhost:3000";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
 
