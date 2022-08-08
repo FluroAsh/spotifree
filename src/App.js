@@ -29,7 +29,7 @@ function App() {
     }
 
     setToken(token);
-  });
+  }, []);
 
   /* removes token from browsers local storage */
   const logout = () => {
@@ -57,7 +57,7 @@ function App() {
       <div className="artist-card" key={artist.id}>
         <h3>{artist.name}</h3>
         {artist.images.length ? (
-          <img src={artist.images[0].url} alt="" />
+          <img src={artist.images[0].url} alt={artist.name} />
         ) : (
           <div>No Image</div>
         )}
